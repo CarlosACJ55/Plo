@@ -4,14 +4,8 @@ import java.util.LinkedList;
 
 public class Login_Process {
 
-	static LinkedList<Teacher> Teacher_List = new LinkedList<Teacher>();
-	static LinkedList<Student> Student_List = new LinkedList<Student>();
-	
-	public static void main(String[] args) {
-		
-		
-			
-	}
+	static LinkedList<Teacher> Teacher_List = new LinkedList<>();
+	static LinkedList<Student> Student_List = new LinkedList<>();
 	
 	public void initialize () {
 		
