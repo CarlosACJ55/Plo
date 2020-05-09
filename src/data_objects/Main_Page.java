@@ -40,24 +40,6 @@ public class Main_Page {
 
 	private static JFrame frmMarkhamQuiznet;
 	private final Action action = new SwingAction();
-
-	/**
-	 * Launch the application.
-	 */
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main_Page window = new Main_Page();
-					frmMarkhamQuiznet.setUndecorated(true);
-					window.frmMarkhamQuiznet.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 
 	/**

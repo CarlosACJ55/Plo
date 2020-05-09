@@ -24,6 +24,8 @@ import java.awt.Label;
 import javax.swing.JMenuBar;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class Login_Window {
 
@@ -37,12 +39,38 @@ public class Login_Window {
 	 */
 
 	public static void main(String[] args) {
+		if (!new File(System.getProperty("user.home"), "MarkhamQuiznet").exists())
+		{
+			if (new File(System.getProperty("user.home"), "MarkhamQuiznet").mkdir())
+				System.out.println("Resources directory created.");
+			if (new File(System.getProperty("user.home"), "MarkhamQuiznet/Databases").mkdir())
+				System.out.println("Databases directory created.");
+			if (new File(System.getProperty("user.home"), "MarkhamQuiznet/Images").mkdir())
+				System.out.println("Images directory created.");
+			try
+			{
+				if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Student Database.txt").createNewFile())
+					System.out.println("Student file created.");
+				if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Teacher Database.txt").createNewFile())
+					System.out.println("Teacher file created.");
+				if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Quizzes Database.txt").createNewFile())
+					System.out.println("Quizzes file created.");
+				if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Marks Database.txt").createNewFile())
+					System.out.println("Marks file created.");
+				if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Revision Database.txt").createNewFile())
+					System.out.println("Revision file created.");
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Login_Window window = new Login_Window();
 					frame.setUndecorated(true);
-					window.frame.setVisible(true);
+					frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -165,7 +193,7 @@ public class Login_Window {
 				
 		Login_Process LG_Proc = new Login_Process();
 			LG_Proc.initialize();
-			int validation = LG_Proc.find_user_and_password(txtUser.getText(),txtPassword.getText());
+			int validation = Login_Process.find_user_and_password(txtUser.getText(),txtPassword.getText());
 			if(validation != -1) {
 					
 				System.out.println("Access Granted");
