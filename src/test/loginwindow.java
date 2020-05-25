@@ -14,6 +14,8 @@ import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Font;
 import javax.swing.border.MatteBorder;
 import java.awt.TextField;
@@ -22,6 +24,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 import java.awt.Label;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -36,25 +40,25 @@ public class loginwindow {
 	private JPanel panel;
 
 	public static void main(String[] args) {
-        if (!new File(System.getProperty("user.home"), "MarkhamQuiznet").exists())
+        if (!new File(System.getProperty("user.home"), "MarkhamQuiznet2").exists())
         {
-            if (new File(System.getProperty("user.home"), "MarkhamQuiznet").mkdir())
+            if (new File(System.getProperty("user.home"), "MarkhamQuiznet2").mkdir())
                 System.out.println("Resources directory created.");
-            if (new File(System.getProperty("user.home"), "MarkhamQuiznet/Databases").mkdir())
+            if (new File(System.getProperty("user.home"), "MarkhamQuiznet2/Databases").mkdir())
                 System.out.println("Databases directory created.");
-            if (new File(System.getProperty("user.home"), "MarkhamQuiznet/Images").mkdir())
+            if (new File(System.getProperty("user.home"), "MarkhamQuiznet2/Images").mkdir())
                 System.out.println("Images directory created.");
             try
             {
-                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Student Database.txt").createNewFile())
+                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/", "Student Database.txt").createNewFile())
                     System.out.println("Student file created.");
-                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Teacher Database.txt").createNewFile())
+                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/", "Teacher Database.txt").createNewFile())
                     System.out.println("Teacher file created.");
-                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Quizzes Database.txt").createNewFile())
+                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/", "Quizzes Database.txt").createNewFile())
                     System.out.println("Quizzes file created.");
-                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Marks Database.txt").createNewFile())
+                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/", "Marks Database.txt").createNewFile())
                     System.out.println("Marks file created.");
-                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/", "Revision Database.txt").createNewFile())
+                if (new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/", "Revision Database.txt").createNewFile())
                     System.out.println("Revision file created.");
             }
             catch (IOException e)
@@ -105,11 +109,13 @@ public class loginwindow {
 			
 			txtUser = new JTextField();
 			txtUser.setBounds(285, 105, 174, 26);
+			txtUser.setText("pheello.tlali");
 			frame.getContentPane().add(txtUser);
 			txtUser.setColumns(10);
 			
 			txtPassword = new JTextField();
 			txtPassword.setBounds(285, 179, 174, 26);
+			txtPassword.setText("123");
 			frame.getContentPane().add(txtPassword);
 			txtPassword.setColumns(10);
 			
@@ -184,6 +190,15 @@ public class loginwindow {
 			btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
+				/*if (!user.isBasic())
+				{
+					dispose();
+					SwingUtilities.invokeLater(() -> new Sales(user).setVisible(true));
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Primero debes crear un nuevo administrador");
+			}*/
+				
 			loginprocess LG_Proc = new loginprocess();
 				LG_Proc.initialize();
 				int validation = LG_Proc.find_user_and_password(txtUser.getText(),txtPassword.getText());

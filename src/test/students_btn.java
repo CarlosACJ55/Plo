@@ -35,6 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Scrollbar;
 import java.awt.Choice;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JTable;
@@ -48,19 +49,22 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
 		
 public class students_btn {
 
 			
-			private static File filestudent = new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/","Student Database.txt");
+			private static File filestudent = new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/","Student Database.txt");
 			private JFrame frmMarkhamQuiznet;
 			private final Action action = new SwingAction();
 			private Vector<student> studentlist = new Vector<>();
 			private int selectedStudent;
 			JList Jlist1 = new JList();
-			DefaultListModel<String> defaultListModelNames = new DefaultListModel<>();
+		
+			DefaultListModel<String> Model = new DefaultListModel<>();
 			protected AbstractButton nameTxt;
+		
 			
 			
 			public students_btn() {
@@ -76,8 +80,8 @@ public class students_btn {
 			//add to list
 			@SuppressWarnings("unchecked")
 			private void add(int code, String name, String last_name, String doB, String user, String password) {
-				Jlist1.setModel(defaultListModelNames);
-				defaultListModelNames.addElement(name);
+				Jlist1.setModel(Model);
+				Model.addElement(name);
 			}
 			/**
 			 * Initialize the contents of the frame.
@@ -111,40 +115,8 @@ public class students_btn {
 				TextField textFieldCode1 = new TextField();
 				textFieldCode1.setBounds(73, 135, 78, 22);
 				panel.add(textFieldCode1);
-				
-				Canvas canvas_1 = new Canvas();
-				canvas_1.setBackground(Color.WHITE);
-				canvas_1.setBounds(20, 10, 131, 85);
-				panel.add(canvas_1);
 		
-		        		
-		     /* String Name = studentlist.get(selectedStudent).getName();
-				String Surname = studentlist.get(selectedStudent).getLast_name();
-				String Password = studentlist.get(selectedStudent).getPassword();
-				int CodeNo = studentlist.get(selectedStudent).getCode();
-				String DoB = studentlist.get(selectedStudent).getDoB();
-				*/
-			
-				
-		      //String name = list.getSelectedValue().toString();
-		        		
-		   
-				
-				
-				/*private int selectedUser;
-				listNames.addMouseListener
-				                (
-				                        new MouseAdapter()
-				                        {
-				                            public void mouseClicked(MouseEvent e)
-				                            {
-				                                if (listNames.getSelectedValuesList().size() == 1)
-				                                    selectedUser = listNames.getSelectedIndex();
-				                            }
-				                        }
-				                );
-				*/
-				
+		        	
 				Label label_1_2 = new Label("Name:");
 				label_1_2.setBounds(8, 175, 67, 22);
 				panel.add(label_1_2);
@@ -177,22 +149,6 @@ public class students_btn {
 				textFieldDoB1.setBounds(73, 284, 78, 22);
 				panel.add(textFieldDoB1);
 				
-				JButton btnNewButton_1 = new JButton("select");
-				btnNewButton_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
-				btnNewButton_1.setBounds(51, 101, 67, 16);
-				panel.add(btnNewButton_1);
-				
-				JButton btn_update= new JButton("update");
-				btn_update.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				btn_update.setBounds(255, 312, 70, 20);
-				panel.add(btn_update);
 				
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(175, 11, 150, 291);
@@ -206,31 +162,68 @@ public class students_btn {
 				Jlist1.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						String selected=Jlist1.getSelectedValue().toString();
-		        		nameTxt=setText(selected);
-		        		String Name = studentlist.get(selectedStudent).getName();
-						String Surname = studentlist.get(selectedStudent).getLast_name();
-						String Password = studentlist.get(selectedStudent).getPassword();
-						int CodeNo = studentlist.get(selectedStudent).getCode();
-						String DoB = studentlist.get(selectedStudent).getDoB();
+						
+						int[] selected=Jlist1.getSelectedIndices();
+				
+						textFieldUsername1.setText(studentlist.get(selected[0]).getUser());
+		        		textFieldDoB1.setText(studentlist.get(selected[0]).getDoB());
+						textFieldPassword1.setText(studentlist.get(selected[0]).getPassword());
+						textFieldCode1.setText(String.valueOf(studentlist.get(selected[0]).getCode()));
+						textFieldName1.setText(studentlist.get(selected[0]).getName());
 		        		
 					}
 
-					private AbstractButton setText(String selected) {
-						// TODO Auto-generated method stub
-						return null;
+					
 					}
-				});
+				);
 				scrollPane.setViewportView(Jlist1);
+				
+				JButton btn_edit= new JButton("edit");
+				btn_edit.setBounds(255, 313, 70, 20);
+				btn_edit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						int selected=Jlist1.getSelectedIndex();
+						
+						
+						studentlist.set(selected, new student (Integer.parseInt(intRequestCode()), stringRequestName(), stringRequestLastname(), stringRequestDoB(), stringRequestUser(), stringRequestPassword(), stringRequestTutGroup()));
+						write();
+						frmMarkhamQuiznet.dispose();
+						SwingUtilities.invokeLater(() -> new students_btn());
+						
+						System.out.println("Edit succesful");
+										}
+					
+					
+				});
+				panel.add(btn_edit);
+				
+				JButton btn_delete = new JButton("delete");
+				btn_delete.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					
+						
+						int selected = Jlist1.getSelectedIndex();
+					    ((DefaultListModel<String>) Jlist1.getModel()).remove(selected);
+						studentlist.remove(selected);
+						write();
+						frmMarkhamQuiznet.dispose();
+						SwingUtilities.invokeLater(() -> new students_btn());
+				
+					}
+						
+				});
+				btn_delete.setBounds(177, 313, 70, 20);
+				panel.add(btn_delete);
 				
 				JPanel panel_1 = new JPanel();
 				panel_1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 				tabbedPane.addTab("Add", null, panel_1, null);
 				panel_1.setLayout(null);
 				
-				TextField textField = new TextField();
-				textField.setBounds(78, 10, 82, 22);
-				panel_1.add(textField);
+				TextField textField_Code2 = new TextField();
+				textField_Code2.setBounds(78, 10, 82, 22);
+				panel_1.add(textField_Code2);
 				
 				Label label = new Label("Code no:");
 				label.setBounds(10, 10, 62, 22);
@@ -241,13 +234,13 @@ public class students_btn {
 				canvas.setBounds(185, 10, 117, 107);
 				panel_1.add(canvas);
 				
-				TextField textField_1 = new TextField();
-				textField_1.setBounds(78, 49, 82, 22);
-				panel_1.add(textField_1);
+				TextField textField_Name2 = new TextField();
+				textField_Name2.setBounds(78, 49, 82, 22);
+				panel_1.add(textField_Name2);
 				
-				TextField textField_2 = new TextField();
-				textField_2.setBounds(78, 88, 82, 22);
-				panel_1.add(textField_2);
+				TextField textField_Lastname2 = new TextField();
+				textField_Lastname2.setBounds(78, 88, 82, 22);
+				panel_1.add(textField_Lastname2);
 				
 				Label label_1 = new Label("Name:");
 				label_1.setBounds(10, 49, 62, 22);
@@ -257,13 +250,13 @@ public class students_btn {
 				label_1_1.setBounds(10, 88, 62, 22);
 				panel_1.add(label_1_1);
 				
-				TextField textField_2_1 = new TextField();
-				textField_2_1.setBounds(78, 134, 82, 22);
-				panel_1.add(textField_2_1);
+				TextField textField_Password = new TextField();
+				textField_Password.setBounds(78, 134, 82, 22);
+				panel_1.add(textField_Password);
 				
-				TextField textField_2_2 = new TextField();
-				textField_2_2.setBounds(78, 172, 82, 22);
-				panel_1.add(textField_2_2);
+				TextField textField_DoB2 = new TextField();
+				textField_DoB2.setBounds(78, 172, 82, 22);
+				panel_1.add(textField_DoB2);
 				
 				Label label_1_1_1 = new Label("Password:");
 				label_1_1_1.setBounds(10, 134, 62, 22);
@@ -285,36 +278,40 @@ public class students_btn {
 				scrollbar.setBounds(308, 10, 17, 315);
 				panel_1.add(scrollbar);
 				
-				//DefaultListModel<String> defaultListModelNames = new DefaultListModel<>();
-				
-				  /* String Name = studentlist.get(selectedStudent).getName();
-				String Surname = studentlist.get(selectedStudent).getLast_name();
-				String Password = studentlist.get(selectedStudent).getPassword();
-				int CodeNo = studentlist.get(selectedStudent).getCode();
-				String DoB = studentlist.get(selectedStudent).getDoB();
-				*/
-				
-				JButton btn_add = new JButton("add");
-				btn_add.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						
-						add(selectedStudent, nameTxt.getText(), null, null, null, null);
-						
-						//clear test
-						nameTxt.getText();
-					}
-				});
-				btn_add.setBounds(207, 302, 82, 23);
-				panel_1.add(btn_add);
-				
-				TextField textField_1_1 = new TextField();
-				textField_1_1.setBounds(78, 213, 82, 22);
-				panel_1.add(textField_1_1);
+				TextField textField_Username2 = new TextField();
+				textField_Username2.setBounds(78, 213, 82, 22);
+				panel_1.add(textField_Username2);
 				
 				Label label_1_3 = new Label("Username:");
 				label_1_3.setBounds(10, 213, 62, 22);
 				panel_1.add(label_1_3);
+				
+				TextField textField_TutGroup = new TextField();
+				textField_TutGroup.setBounds(78, 253, 82, 22);
+				panel_1.add(textField_TutGroup);
+				
+				Label label_1_3_1 = new Label("Tutor Group:");
+				label_1_3_1.setBounds(10, 253, 62, 22);
+				panel_1.add(label_1_3_1);
+				
+				JButton btn_add = new JButton("add");
+				btn_add.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+				
+						
+					studentlist.add(new student(Integer.parseInt(textField_Code2.getText()), textField_Name2.getText(), textField_Lastname2.getText(), textField_DoB2.getText(), textField_Username2.getText(), textField_Password.getText(), textField_TutGroup.getText()));
+					write();
+					frmMarkhamQuiznet.dispose();
+					SwingUtilities.invokeLater(() -> new students_btn());
+					
+					
+					
+					System.out.println("Save succesful");
+					}
+				});
+			
+				btn_add.setBounds(207, 302, 82, 23);
+				panel_1.add(btn_add);
 				
 				JButton btn_Students = new JButton("Students");
 				btn_Students.setFont(new Font("Times New Roman", Font.ITALIC, 11));
@@ -344,12 +341,11 @@ public class students_btn {
 				Quizzes_btn.setBounds(21, 74, 89, 23);
 				frmMarkhamQuiznet.getContentPane().add(Quizzes_btn);
 				
-				JButton btnRevision = new JButton("Revision");
-				btnRevision.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-				btnRevision.setBounds(21, 142, 89, 23);
-				frmMarkhamQuiznet.getContentPane().add(btnRevision);
-				
 				JButton btnMenu = new JButton("Menu");
+				btnMenu.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
 				btnMenu.setFont(new Font("Times New Roman", Font.ITALIC, 11));
 				btnMenu.setBounds(21, 277, 89, 23);
 				frmMarkhamQuiznet.getContentPane().add(btnMenu);
@@ -358,19 +354,20 @@ public class students_btn {
 				btnHome.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
+						frmMarkhamQuiznet.dispose();
+						
+						
+						
 					}
 				});
 				btnHome.setFont(new Font("Times New Roman", Font.ITALIC, 11));
 				btnHome.setBounds(21, 322, 89, 23);
 				frmMarkhamQuiznet.getContentPane().add(btnHome);
 				
-				JButton btnMarks = new JButton("Marks");
-				btnMarks.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-				btnMarks.setBounds(21, 108, 89, 23);
-				frmMarkhamQuiznet.getContentPane().add(btnMarks);
-				
 				frmMarkhamQuiznet.setVisible(true);
 			}
+			
+			
 			protected void add2(String name) {
 				// TODO Auto-generated method stub
 				
@@ -407,7 +404,7 @@ public class students_btn {
 		        {
 		            PrintWriter printWriter = new PrintWriter(filestudent);
 		            for (student x : studentlist)
-		            printWriter.println(x.getCode() + " " + x.getName() + " " + x.getLast_name() + " " + x.getDoB() + " " + x.getUser() + " " + x.getPassword() + " " + x.getTutgroup());
+		            	printWriter.println(x.getCode() + " " + x.getName() + " " + x.getLast_name() + " " + x.getDoB() + " " + x.getUser() + " " + x.getPassword() + " " + x.getTutgroup());
 		            printWriter.flush();
 		            printWriter.close();
 		        }
@@ -415,8 +412,44 @@ public class students_btn {
 		        {
 		            System.out.println("error.");
 		        }
+		        }
+		        
+				private String intRequestCode()
+				{
+					return JOptionPane.showInputDialog("Code:");
+				}
+				
+		    	private String stringRequestName()
+		    	{
+		    		return JOptionPane.showInputDialog("Name:");
+		    	}
+		    	
+		    	private String stringRequestLastname()
+		    	{
+		    		return JOptionPane.showInputDialog("Lastname:");
+		    	}
+		    	
+		    	private String stringRequestDoB()
+		    	{
+		    		return JOptionPane.showInputDialog("Date of Birth:");
+		    	}
+		    	
+		    	private String stringRequestUser()
+		    	{
+		    		return JOptionPane.showInputDialog("Username:");
+		    	}
+		    
+		    	private String stringRequestPassword()
+		    	{
+		    		return JOptionPane.showInputDialog("Password:");
+		    	}
+		    	
+		    	private String stringRequestTutGroup()
+		    	{
+		    		return JOptionPane.showInputDialog("Tutor Group:");
+		    	}
 		    }
-	}
+	
 
 
 

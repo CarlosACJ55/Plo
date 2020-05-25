@@ -12,7 +12,7 @@ public class student extends person{
 		super(code, name, lastname, DoB, user, password, tutgroup);
 		this.tutgroup = tutgroup;
 	}
-	
+
 
 	public String getTutgroup() {
 		return tutgroup;

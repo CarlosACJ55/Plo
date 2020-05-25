@@ -106,25 +106,22 @@ public class main {
 			Quizzes_btn.setBounds(21, 74, 89, 23);
 			frmMarkhamQuiznet.getContentPane().add(Quizzes_btn);
 			
-			JButton btnRevision = new JButton("Revision");
-			btnRevision.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-			btnRevision.setBounds(21, 142, 89, 23);
-			frmMarkhamQuiznet.getContentPane().add(btnRevision);
-			
 			JButton btnMenu = new JButton("Menu");
 			btnMenu.setFont(new Font("Times New Roman", Font.ITALIC, 11));
 			btnMenu.setBounds(21, 277, 89, 23);
 			frmMarkhamQuiznet.getContentPane().add(btnMenu);
 			
 			JButton btnHome = new JButton("Home");
+			btnHome.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+					
+				}
+			});
 			btnHome.setFont(new Font("Times New Roman", Font.ITALIC, 11));
 			btnHome.setBounds(21, 322, 89, 23);
 			frmMarkhamQuiznet.getContentPane().add(btnHome);
-			
-			JButton btnMarks = new JButton("Marks");
-			btnMarks.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-			btnMarks.setBounds(21, 108, 89, 23);
-			frmMarkhamQuiznet.getContentPane().add(btnMarks);
 			
 			JPanel panel_2 = new JPanel();
 			panel_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));

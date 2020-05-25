@@ -10,7 +10,7 @@ public class person {
 	String DoB;
 	String user;
 	String password;
-	
+	boolean Admin;
 	
 	
 	public person(int code, String name, String last_name, String doB, String user, String password, String tutgroup) {
@@ -23,6 +23,18 @@ public class person {
 		this.password = password;
 	}
 	
+	public person(int code, String name, String last_name, String doB, String user, String password, String tutgroup, boolean admin) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.last_name = last_name;
+		DoB = doB;
+		this.user = user;
+		this.password = password;
+		this.Admin = Admin;
+	}
+	
+
 	public String getUser() {
 		return user;
 	}
@@ -60,6 +72,13 @@ public class person {
 		this.DoB = doB;
 	}
 	
+	public boolean Admin() {
+		return Admin;
+	}
+
+	public void Admin(boolean Admin) {
+		this.Admin = Admin;
+	}
 	
 	
 	

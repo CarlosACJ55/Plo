@@ -43,10 +43,12 @@ import java.awt.event.ActionEvent;
 		import javax.swing.ScrollPaneConstants;
 		import javax.swing.ListSelectionModel;
 		import javax.swing.AbstractListModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 		
 public class quizzes_btn<Quizzes_btn> {
 
-			private static File filestudent = new File(System.getProperty("user.home") + "/MarkhamQuiznet/Databases/","Quizzes Database.txt");
+			private static File filestudent = new File(System.getProperty("user.home") + "/MarkhamQuiznet2/Databases/","Quizzes Database.txt");
 			private JFrame frmMarkhamQuiznet;
 			private final Action action = new SwingAction();
 		
@@ -83,7 +85,7 @@ public class quizzes_btn<Quizzes_btn> {
 				label_2.setBounds(10, 23, 34, 22);
 				panel.add(label_2);
 				
-				Label label_2_1 = new Label("Date Added:");
+				Label label_2_1 = new Label("Code:");
 				label_2_1.setFont(new Font("Dialog", Font.PLAIN, 11));
 				label_2_1.setBounds(10, 64, 67, 22);
 				panel.add(label_2_1);
@@ -93,26 +95,44 @@ public class quizzes_btn<Quizzes_btn> {
 				label_2_2.setBounds(10, 104, 67, 22);
 				panel.add(label_2_2);
 				
-				TextField textField_3 = new TextField();
-				textField_3.setBounds(86, 23, 78, 22);
-				panel.add(textField_3);
+				TextField textField_Name = new TextField();
+				textField_Name.setBounds(86, 23, 78, 22);
+				panel.add(textField_Name);
 				
-				TextField textField_3_1 = new TextField();
-				textField_3_1.setBounds(86, 64, 78, 22);
-				panel.add(textField_3_1);
+				TextField textField_3_Code = new TextField();
+				textField_3_Code.setBounds(86, 64, 78, 22);
+				panel.add(textField_3_Code);
 				
-				TextField textField_3_2 = new TextField();
-				textField_3_2.setBounds(86, 104, 78, 22);
-				panel.add(textField_3_2);
+				TextField textField_3_Marks = new TextField();
+				textField_3_Marks.setBounds(86, 104, 78, 22);
+				textField_3_Marks.setText("            /5 ");
+				panel.add(textField_3_Marks);
+				
+				JScrollPane scrollPane_1 = new JScrollPane();
+				scrollPane_1.setBounds(170, 11, 155, 314);
+				panel.add(scrollPane_1);
 				
 				JScrollPane scrollPane = new JScrollPane();
+				scrollPane_1.setViewportView(scrollPane);
 				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-				scrollPane.setBounds(170, 11, 155, 314);
-				panel.add(scrollPane);
+				
+			/*	int[] selected=Jlist1.getSelectedIndices();
+				
+				textFieldUsername1.setText(studentlist.get(selected[0]).getUser());
+        		textFieldDoB1.setText(studentlist.get(selected[0]).getDoB());
+				textFieldPassword1.setText(studentlist.get(selected[0]).getPassword());
+				textFieldCode1.setText(String.valueOf(studentlist.get(selected[0]).getCode()));
+				textFieldName1.setText(studentlist.get(selected[0]).getName());*/
 				
 				JList list = new JList();
+				list.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+					}
+				});
 				list.setModel(new AbstractListModel() {
-					String[] values = new String[] {"Acids, Bases, and pH. ", "Atomic Structure", "Electrochemistry", "Units and Measurement. ", "Thermochemistry", "Chemical Bonding", "Periodic Table", "Equations and Stoichiometry", "Solutions and Mixtures", "Ionic Bonds", "Molecular geometry", "Heat of Solution", "Molar Connections", "Nuclear Reactions", "Chemical Thermodynamics"};
+					String[] values = new String[] {"Acids, Bases, and pH. ", "Atomic Structure", "Electrochemistry", "Thermodynamics", "Chemical Bonding", "Chemical Equations and Rxn Stoichiometry", "Gases", "Fundementals of Chemistry", "Liquids & Solids", "Types of Chemical Reactions", "Chemical Periodicity", "Nuclear Chemistry"};
 					public int getSize() {
 						return values.length;
 					}
@@ -130,15 +150,29 @@ public class quizzes_btn<Quizzes_btn> {
 				JButton btnNewButton = new JButton("Start");
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						System.out.println("******************");
+						System.out.println("Start");
+						System.out.println("******************");
+						
+						System.out.println(list.getSelectedIndex());
+						
+						
+						
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									quiz_gui frame = new quiz_gui(list.getSelectedIndex(),"");
+									frame.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
 					}
 				});
 				btnNewButton.setBounds(96, 302, 67, 23);
 				panel.add(btnNewButton);
-				
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				tabbedPane.addTab("Add", null, panel_1, null);
-				panel_1.setLayout(null);
 				
 				JButton btn_Students = new JButton("Students");
 				btn_Students.setBounds(21, 40, 89, 23);
@@ -167,30 +201,17 @@ public class quizzes_btn<Quizzes_btn> {
 				});
 				frmMarkhamQuiznet.getContentPane().add(Quizzes_btn);
 				
-				JButton btnRevision = new JButton("Revision");
-				btnRevision.setBounds(21, 142, 89, 23);
-				btnRevision.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-				frmMarkhamQuiznet.getContentPane().add(btnRevision);
-				
-				JButton btnMenu = new JButton("Menu");
-				btnMenu.setBounds(21, 277, 89, 23);
-				btnMenu.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-				frmMarkhamQuiznet.getContentPane().add(btnMenu);
-				
 				JButton btnHome = new JButton("Home");
 				btnHome.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						
 						
 					
 				}});
 				btnHome.setBounds(21, 322, 89, 23);
 				btnHome.setFont(new Font("Times New Roman", Font.ITALIC, 11));
 				frmMarkhamQuiznet.getContentPane().add(btnHome);
-				
-				JButton btnMarks = new JButton("Marks");
-				btnMarks.setFont(new Font("Times New Roman", Font.ITALIC, 11));
-				btnMarks.setBounds(21, 108, 89, 23);
-				frmMarkhamQuiznet.getContentPane().add(btnMarks);
 				
 				frmMarkhamQuiznet.setVisible(true);
 			}
